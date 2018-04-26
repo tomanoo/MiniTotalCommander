@@ -15,6 +15,7 @@ namespace MiniTotalCommander
     public partial class MiniTCPanel : UserControl
     {
         static bool areDrivesLoaded = false;
+        private static bool isItemSelected = false;
         public event Action<MiniTCPanel> LoadDrivers;
         public event Action<MiniTCPanel> Delete_Directory;
         public event Action<MiniTCPanel> Copy_Directory;
@@ -89,6 +90,15 @@ namespace MiniTotalCommander
            // string root = 
            //     drivesList.SelectedItem.ToString().Substring(drivesList.SelectedItem.ToString().LastIndexOf(':')-1);
             currentPathBox.Text = /*root + */containerBox.SelectedItem.ToString();
+            if (containerBox.SelectedIndex != -1)
+            {
+                isItemSelected = true;
+            }
+            else
+            {
+                isItemSelected = false;
+            }
+
         }
 
         public void containerBox_DoubleClick(object sender, EventArgs e)
@@ -161,18 +171,25 @@ namespace MiniTotalCommander
                 containerBox.Items.Clear();
                 string[] subdirectories;
                 string[] files;
-                if (containerBox.SelectedItem == null)
+                if (!isItemSelected)
                 {
-                    subdirectories = Directory.GetDirectories(parent);
-                    files = Directory.GetFiles(parent);
+                    // subdirectories = Directory.GetDirectories(parent);
+                    //files = Directory.GetFiles(parent);
+                    subdirectories = Directory.GetDirectories(currentPathBox.Text);
+                    files = Directory.GetFiles(currentPathBox.Text);
+                    currentPathBox.Text = parent;
+
                 }
                 else
                 {
                     //  Directory dir = Directory.SetCurrentDirectory(parent);
-                    string path = currentPathBox.Text.Remove(currentPathBox.Text.LastIndexOf('\\'));
-                    parent = Directory.GetParent(path).ToString();
+                   // string path = currentPathBox.Text.Remove(currentPathBox.Text.LastIndexOf('\\'));
+                   // parent = //parent.Remove(parent.LastIndexOf('\\'));// Directory.GetParent(path).ToString();
+                    parent = Directory.GetParent(parent).ToString();
+
                     subdirectories = Directory.GetDirectories(parent);
                     files = Directory.GetFiles(parent);
+                    currentPathBox.Text = parent;
                 }
                 foreach (string s in subdirectories)
                 {
