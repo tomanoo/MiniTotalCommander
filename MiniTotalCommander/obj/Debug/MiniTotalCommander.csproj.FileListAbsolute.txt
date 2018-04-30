@@ -18,3 +18,13 @@ Z:\MiniTotalCommander\MiniTotalCommander\obj\Debug\MiniTotalCommander.Form1.reso
 Z:\MiniTotalCommander\MiniTotalCommander\obj\Debug\MiniTotalCommander.MiniTCPanel.resources
 Z:\MiniTotalCommander\MiniTotalCommander\obj\Debug\MiniTotalCommander.Properties.Resources.resources
 Z:\MiniTotalCommander\MiniTotalCommander\obj\Debug\MiniTotalCommander.csproj.GenerateResource.Cache
+C:\Users\Tomek\Documents\Visual Studio 2017\Projects\MiniTotalCommander\MiniTotalCommander\bin\Debug\MiniTotalCommander.exe.config
+C:\Users\Tomek\Documents\Visual Studio 2017\Projects\MiniTotalCommander\MiniTotalCommander\bin\Debug\MiniTotalCommander.exe
+C:\Users\Tomek\Documents\Visual Studio 2017\Projects\MiniTotalCommander\MiniTotalCommander\bin\Debug\MiniTotalCommander.pdb
+C:\Users\Tomek\Documents\Visual Studio 2017\Projects\MiniTotalCommander\MiniTotalCommander\obj\Debug\MiniTotalCommander.csprojResolveAssemblyReference.cache
+C:\Users\Tomek\Documents\Visual Studio 2017\Projects\MiniTotalCommander\MiniTotalCommander\obj\Debug\MiniTotalCommander.Form1.resources
+C:\Users\Tomek\Documents\Visual Studio 2017\Projects\MiniTotalCommander\MiniTotalCommander\obj\Debug\MiniTotalCommander.MiniTCPanel.resources
+C:\Users\Tomek\Documents\Visual Studio 2017\Projects\MiniTotalCommander\MiniTotalCommander\obj\Debug\MiniTotalCommander.Properties.Resources.resources
+C:\Users\Tomek\Documents\Visual Studio 2017\Projects\MiniTotalCommander\MiniTotalCommander\obj\Debug\MiniTotalCommander.csproj.GenerateResource.Cache
+C:\Users\Tomek\Documents\Visual Studio 2017\Projects\MiniTotalCommander\MiniTotalCommander\obj\Debug\MiniTotalCommander.exe
+C:\Users\Tomek\Documents\Visual Studio 2017\Projects\MiniTotalCommander\MiniTotalCommander\obj\Debug\MiniTotalCommander.pdb

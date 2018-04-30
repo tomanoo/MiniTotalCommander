@@ -16,6 +16,7 @@ namespace MiniTotalCommander
     {
         static bool areDrivesLoaded = false;
         private static bool isItemSelected = false;
+        private string currentDirectory;
         public event Action<MiniTCPanel> LoadDrivers;
         public event Action<MiniTCPanel> Delete_Directory;
         public event Action<MiniTCPanel> Copy_Directory;
@@ -87,9 +88,10 @@ namespace MiniTotalCommander
 
         private void containerBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-           // string root = 
-           //     drivesList.SelectedItem.ToString().Substring(drivesList.SelectedItem.ToString().LastIndexOf(':')-1);
-            currentPathBox.Text = /*root + */containerBox.SelectedItem.ToString();
+            // string root = 
+            //     drivesList.SelectedItem.ToString().Substring(drivesList.SelectedItem.ToString().LastIndexOf(':')-1);
+            //currentPathBox.Text = /*root + */containerBox.SelectedItem.ToString();
+            currentDirectory = containerBox.SelectedItem.ToString();
             if (containerBox.SelectedIndex != -1)
             {
                 isItemSelected = true;
@@ -101,9 +103,18 @@ namespace MiniTotalCommander
 
         }
 
+        internal bool isItAFile()
+        {
+            FileAttributes attr = File.GetAttributes(containerBox.SelectedItem.ToString());
+            if (attr.HasFlag(FileAttributes.Directory))
+                return false;
+            return true;
+        }
+
         public void containerBox_DoubleClick(object sender, EventArgs e)
         {
             containerBox.Items.Clear();
+            currentPathBox.Text = currentDirectory;
             try
             {
                 string[] subdirectories = Directory.GetDirectories(currentPathBox.Text);
@@ -171,26 +182,30 @@ namespace MiniTotalCommander
                 containerBox.Items.Clear();
                 string[] subdirectories;
                 string[] files;
-                if (!isItemSelected)
-                {
-                    // subdirectories = Directory.GetDirectories(parent);
-                    //files = Directory.GetFiles(parent);
-                    subdirectories = Directory.GetDirectories(currentPathBox.Text);
-                    files = Directory.GetFiles(currentPathBox.Text);
-                    currentPathBox.Text = parent;
+                subdirectories = Directory.GetDirectories(parent);
+                files = Directory.GetFiles(parent);
+                #region if else
+                /* if (!isItemSelected)
+                 {
+                     // subdirectories = Directory.GetDirectories(parent);
+                     //files = Directory.GetFiles(parent);
+                     subdirectories = Directory.GetDirectories(currentPathBox.Text);
+                     files = Directory.GetFiles(currentPathBox.Text);
+                     currentPathBox.Text = parent;
 
-                }
-                else
-                {
-                    //  Directory dir = Directory.SetCurrentDirectory(parent);
-                   // string path = currentPathBox.Text.Remove(currentPathBox.Text.LastIndexOf('\\'));
-                   // parent = //parent.Remove(parent.LastIndexOf('\\'));// Directory.GetParent(path).ToString();
-                    parent = Directory.GetParent(parent).ToString();
+                 }
+                 else
+                 {
+                     //  Directory dir = Directory.SetCurrentDirectory(parent);
+                    // string path = currentPathBox.Text.Remove(currentPathBox.Text.LastIndexOf('\\'));
+                    // parent = //parent.Remove(parent.LastIndexOf('\\'));// Directory.GetParent(path).ToString();
+                     parent = Directory.GetParent(parent).ToString();
 
-                    subdirectories = Directory.GetDirectories(parent);
-                    files = Directory.GetFiles(parent);
-                    currentPathBox.Text = parent;
-                }
+                     subdirectories = Directory.GetDirectories(parent);
+                     files = Directory.GetFiles(parent);
+                     currentPathBox.Text = parent;
+                 }*/
+                #endregion
                 foreach (string s in subdirectories)
                 {
                     containerBox.Items.Add(s);//.Substring(s.LastIndexOf('\\') + 1));
@@ -204,6 +219,9 @@ namespace MiniTotalCommander
                     string curr = currentPathBox.Text;
                     Process.Start(curr);
                 }
+
+                currentDirectory = Directory.GetParent(currentDirectory).ToString();
+                currentPathBox.Text = currentDirectory;
 
             }
             catch (Exception exc)
