@@ -48,12 +48,14 @@ namespace MiniTotalCommander
         {
             // MessageBox.Show(obj.CurrentPath.Substring(obj.CurrentPath.LastIndexOf('\\') + 1));
             //Directory.Move(obj.CurrentPath.Substring(obj.CurrentPath.LastIndexOf('\\')), miniTCPanel1.CurrentPath);
+            MessageBox.Show("Tu 2");
             MessageBox.Show(obj.CurrentPath + '\\'+ miniTCPanel1.CurrentPath);
-            Directory.Move(obj.CurrentPath + '\\', miniTCPanel1.CurrentPath);
+            Directory.Move(obj.CurrentPath, miniTCPanel1.CurrentPath);
         }
 
         private void MiniTCPanel1_Move_Directory(MiniTCPanel obj)
         {
+            MessageBox.Show("Tu 1");
             MessageBox.Show(obj.CurrentPath.Substring(obj.CurrentPath.LastIndexOf('\\') + 1));
             Directory.Move(obj.CurrentPath.Substring(obj.CurrentPath.LastIndexOf('\\')), miniTCPanel2.CurrentPath);
         }

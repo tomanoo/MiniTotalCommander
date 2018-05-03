@@ -36,6 +36,7 @@ namespace MiniTotalCommander
             get { return currentPathBox.Text;  }
         }
 
+
         public string[] Drivers
         {
             set
@@ -92,6 +93,15 @@ namespace MiniTotalCommander
             //     drivesList.SelectedItem.ToString().Substring(drivesList.SelectedItem.ToString().LastIndexOf(':')-1);
             //currentPathBox.Text = /*root + */containerBox.SelectedItem.ToString();
             currentDirectory = containerBox.SelectedItem.ToString();
+            bool isfile;
+
+            FileAttributes attr = File.GetAttributes(currentDirectory);
+            if (attr.HasFlag(FileAttributes.Directory))
+                isfile = false;
+            else
+                isfile = true;
+
+
             if (containerBox.SelectedIndex != -1)
             {
                 isItemSelected = true;
@@ -103,18 +113,11 @@ namespace MiniTotalCommander
 
         }
 
-        internal bool isItAFile()
-        {
-            FileAttributes attr = File.GetAttributes(containerBox.SelectedItem.ToString());
-            if (attr.HasFlag(FileAttributes.Directory))
-                return false;
-            return true;
-        }
-
         public void containerBox_DoubleClick(object sender, EventArgs e)
         {
             containerBox.Items.Clear();
             currentPathBox.Text = currentDirectory;
+            isItemSelected = false;
             try
             {
                 string[] subdirectories = Directory.GetDirectories(currentPathBox.Text);
@@ -178,6 +181,7 @@ namespace MiniTotalCommander
             
             try
             {
+
                 string parent = Directory.GetParent(currentPathBox.Text).ToString();
                 containerBox.Items.Clear();
                 string[] subdirectories;
@@ -221,7 +225,11 @@ namespace MiniTotalCommander
                 }
 
                 currentDirectory = Directory.GetParent(currentDirectory).ToString();
-                currentPathBox.Text = currentDirectory;
+                if (isItemSelected)
+                    currentPathBox.Text = Directory.GetParent(currentDirectory).ToString();
+                else
+                    currentPathBox.Text = currentDirectory;
+                isItemSelected = false;
 
             }
             catch (Exception exc)
