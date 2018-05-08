@@ -22,12 +22,13 @@ namespace MiniTotalCommander
             InitializeComponent();
             //miniTCPanel1.CurrentPath = @"c:\";
             miniTCPanel1.LoadDrivers += MiniTCPanel1_LoadDrivers;
-            miniTCPanel1.Delete_Directory += MiniTCPanel1_Delete_Directory;
+            miniTCPanel2.LoadDrivers += MiniTCPanel2_LoadDrivers;
+            /*miniTCPanel1.Delete_Directory += MiniTCPanel1_Delete_Directory;
             miniTCPanel2.Delete_Directory += MiniTCPanel2_Delete_Directory;
             miniTCPanel1.Copy_Directory += MiniTCPanel1_Copy_Directory;
             miniTCPanel2.Copy_Directory += MiniTCPanel2_Copy_Directory;
             miniTCPanel1.Move_Directory += MiniTCPanel1_Move_Directory;
-            miniTCPanel2.Move_Directory += MiniTCPanel2_Move_Directory;
+            miniTCPanel2.Move_Directory += MiniTCPanel2_Move_Directory;*/
 
 
             //DriveInfo
@@ -44,20 +45,19 @@ namespace MiniTotalCommander
             //File
         }
 
-        private void MiniTCPanel2_Move_Directory(MiniTCPanel obj)
-        {
-            // MessageBox.Show(obj.CurrentPath.Substring(obj.CurrentPath.LastIndexOf('\\') + 1));
-            //Directory.Move(obj.CurrentPath.Substring(obj.CurrentPath.LastIndexOf('\\')), miniTCPanel1.CurrentPath);
-            MessageBox.Show("Tu 2");
-            MessageBox.Show(obj.CurrentPath + '\\'+ miniTCPanel1.CurrentPath);
-            Directory.Move(obj.CurrentPath, miniTCPanel1.CurrentPath);
-        }
+
 
         private void MiniTCPanel1_Move_Directory(MiniTCPanel obj)
         {
             MessageBox.Show("Tu 1");
-            MessageBox.Show(obj.CurrentPath.Substring(obj.CurrentPath.LastIndexOf('\\') + 1));
-            Directory.Move(obj.CurrentPath.Substring(obj.CurrentPath.LastIndexOf('\\')), miniTCPanel2.CurrentPath);
+            MessageBox.Show(obj.currentSelectedDirectory() + " to " + miniTCPanel2.currentDir() + '\\' + obj.currentSelectedDirectory().Substring(obj.currentSelectedDirectory().LastIndexOf('\\') + 1));
+            Directory.Move(obj.currentSelectedDirectory(), miniTCPanel2.currentDir() + '\\' + obj.currentSelectedDirectory().Substring(obj.currentSelectedDirectory().LastIndexOf('\\') + 1));
+        }
+        private void MiniTCPanel2_Move_Directory(MiniTCPanel obj)
+        {
+            MessageBox.Show("Tu 2");
+            MessageBox.Show(obj.currentSelectedDirectory() + " to " + miniTCPanel1.currentDir() + '\\' + obj.currentSelectedDirectory().Substring(obj.currentSelectedDirectory().LastIndexOf('\\')+1));
+            Directory.Move(obj.currentSelectedDirectory(), miniTCPanel1.currentDir()+'\\'+obj.currentSelectedDirectory().Substring(obj.currentSelectedDirectory().LastIndexOf('\\')+1));
         }
 
         private void MiniTCPanel2_Copy_Directory(MiniTCPanel obj)
@@ -92,6 +92,11 @@ namespace MiniTotalCommander
         private void MiniTCPanel1_LoadDrivers(MiniTCPanel obj)
         {
            
+        }
+
+        private void MiniTCPanel2_LoadDrivers(MiniTCPanel obj)
+        {
+
         }
 
         private void button1_Click(object sender, EventArgs e)

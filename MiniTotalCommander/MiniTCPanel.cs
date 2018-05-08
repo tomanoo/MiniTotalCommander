@@ -17,10 +17,11 @@ namespace MiniTotalCommander
         static bool areDrivesLoaded = false;
         private static bool isItemSelected = false;
         private string currentDirectory;
+        private string selectedDirectory;
         public event Action<MiniTCPanel> LoadDrivers;
-        public event Action<MiniTCPanel> Delete_Directory;
+        /*public event Action<MiniTCPanel> Delete_Directory;
         public event Action<MiniTCPanel> Copy_Directory;
-        public event Action<MiniTCPanel> Move_Directory;
+        public event Action<MiniTCPanel> Move_Directory;*/
 
         public MiniTCPanel()
         {
@@ -36,6 +37,15 @@ namespace MiniTotalCommander
             get { return currentPathBox.Text;  }
         }
 
+        public string currentDir()
+        {
+            return currentDirectory;
+        }
+
+        public string currentSelectedDirectory()
+        {
+            return selectedDirectory;
+        }
 
         public string[] Drivers
         {
@@ -56,6 +66,8 @@ namespace MiniTotalCommander
                     LoadDrivers(this);
                 }
         }
+
+        
         
 
         private void drivesList_SelectedIndexChanged(object sender, EventArgs e)
@@ -93,6 +105,7 @@ namespace MiniTotalCommander
             //     drivesList.SelectedItem.ToString().Substring(drivesList.SelectedItem.ToString().LastIndexOf(':')-1);
             //currentPathBox.Text = /*root + */containerBox.SelectedItem.ToString();
             currentDirectory = containerBox.SelectedItem.ToString();
+            selectedDirectory = containerBox.SelectedItem.ToString();
             bool isfile;
 
             FileAttributes attr = File.GetAttributes(currentDirectory);
