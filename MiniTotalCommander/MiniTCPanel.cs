@@ -107,12 +107,18 @@ namespace MiniTotalCommander
             currentDirectory = containerBox.SelectedItem.ToString();
             selectedDirectory = containerBox.SelectedItem.ToString();
             bool isfile;
-
-            FileAttributes attr = File.GetAttributes(currentDirectory);
-            if (attr.HasFlag(FileAttributes.Directory))
-                isfile = false;
-            else
-                isfile = true;
+            try
+            {
+                FileAttributes attr = File.GetAttributes(currentDirectory);
+                if (attr.HasFlag(FileAttributes.Directory))
+                    isfile = false;
+                else
+                    isfile = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
 
             if (containerBox.SelectedIndex != -1)

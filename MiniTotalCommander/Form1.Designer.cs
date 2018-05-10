@@ -61,7 +61,7 @@
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(100, 40);
             this.deleteButton.TabIndex = 2;
-            this.deleteButton.Text = "Usuń";
+            this.deleteButton.Text = "Delete";
             this.deleteButton.UseVisualStyleBackColor = true;
             this.deleteButton.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -73,7 +73,7 @@
             this.copyButton.Name = "copyButton";
             this.copyButton.Size = new System.Drawing.Size(100, 40);
             this.copyButton.TabIndex = 3;
-            this.copyButton.Text = "Kopiuj";
+            this.copyButton.Text = "Copy";
             this.copyButton.UseVisualStyleBackColor = true;
             this.copyButton.Click += new System.EventHandler(this.copyButton_Click);
             // 
@@ -85,7 +85,7 @@
             this.moveButton.Name = "moveButton";
             this.moveButton.Size = new System.Drawing.Size(100, 40);
             this.moveButton.TabIndex = 4;
-            this.moveButton.Text = "Przenieś";
+            this.moveButton.Text = "Move";
             this.moveButton.UseVisualStyleBackColor = true;
             this.moveButton.Click += new System.EventHandler(this.moveButton_Click);
             // 
@@ -100,7 +100,7 @@
             this.Controls.Add(this.miniTCPanel2);
             this.Controls.Add(this.miniTCPanel1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "MiniTotalCommander";
             this.ResumeLayout(false);
 
         }
