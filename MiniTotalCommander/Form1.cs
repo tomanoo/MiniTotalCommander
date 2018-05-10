@@ -82,12 +82,14 @@ namespace MiniTotalCommander
 
         private void MiniTCPanel_Copy_Directory(/*MiniTCPanel obj, */string sourceDir, string destDir)
         {
-           /* s = obj.currentSelectedDirectory();
-            d = miniTCPanel2.currentDir() + '\\' +
-                obj.currentSelectedDirectory().Substring(obj.currentSelectedDirectory().LastIndexOf('\\') + 1);
-            string sourceDir = obj.currentSelectedDirectory();
-            string destDir = miniTCPanel2.currentDir() + '\\' +
-                obj.currentSelectedDirectory().Substring(obj.currentSelectedDirectory().LastIndexOf('\\') + 1);*/
+            #region 1
+            /* s = obj.currentSelectedDirectory();
+             d = miniTCPanel2.currentDir() + '\\' +
+                 obj.currentSelectedDirectory().Substring(obj.currentSelectedDirectory().LastIndexOf('\\') + 1);
+             string sourceDir = obj.currentSelectedDirectory();
+             string destDir = miniTCPanel2.currentDir() + '\\' +
+                 obj.currentSelectedDirectory().Substring(obj.currentSelectedDirectory().LastIndexOf('\\') + 1);*/
+            #endregion
             DirectoryInfo dir = new DirectoryInfo(sourceDir);
             DirectoryInfo[] dirs = dir.GetDirectories();
             FileInfo[] files = dir.GetFiles();
@@ -112,43 +114,49 @@ namespace MiniTotalCommander
             }
         }
 
-     /*   private void MiniTCPanel2_Copy_Directory(/*MiniTCPanel obj, ||string sourceDir, string destDir)
-        {
-          /*  string sourceDir = obj.currentSelectedDirectory();
-            string destDir = miniTCPanel1.currentDir() + '\\' +
-                obj.currentSelectedDirectory().Substring(obj.currentSelectedDirectory().LastIndexOf('\\') + 1); ||
-            DirectoryInfo dir = new DirectoryInfo(sourceDir);
-            DirectoryInfo[] dirs = dir.GetDirectories();
-            FileInfo[] files = dir.GetFiles();
-            MessageBox.Show(sourceDir + " to " + destDir);
+        /*   private void MiniTCPanel2_Copy_Directory(/*MiniTCPanel obj, ||string sourceDir, string destDir)
+           {
+             /*  string sourceDir = obj.currentSelectedDirectory();
+               string destDir = miniTCPanel1.currentDir() + '\\' +
+                   obj.currentSelectedDirectory().Substring(obj.currentSelectedDirectory().LastIndexOf('\\') + 1); ||
+               DirectoryInfo dir = new DirectoryInfo(sourceDir);
+               DirectoryInfo[] dirs = dir.GetDirectories();
+               FileInfo[] files = dir.GetFiles();
+               MessageBox.Show(sourceDir + " to " + destDir);
 
-            if (!Directory.Exists(destDir))
-            {
-                Directory.CreateDirectory(destDir);
-            }
+               if (!Directory.Exists(destDir))
+               {
+                   Directory.CreateDirectory(destDir);
+               }
 
-            foreach (FileInfo file in files)
-            {
-                string tmp = Path.Combine(destDir, file.Name);
-                file.CopyTo(tmp, false);
-            }
+               foreach (FileInfo file in files)
+               {
+                   string tmp = Path.Combine(destDir, file.Name);
+                   file.CopyTo(tmp, false);
+               }
 
-            foreach (DirectoryInfo subDir in dirs)
-            {
-                string tmp = Path.Combine(destDir, subDir.Name);
-                MiniTCPanel2_Copy_Directory(subDir.FullName, tmp);
-            }
-        }*/
+               foreach (DirectoryInfo subDir in dirs)
+               {
+                   string tmp = Path.Combine(destDir, subDir.Name);
+                   MiniTCPanel2_Copy_Directory(subDir.FullName, tmp);
+               }
+           }*/
 
-        private void MiniTCPanel2_Delete_Directory(MiniTCPanel obj)
-        {
-            Directory.Delete(obj.currentSelectedDirectory(), true);
-        }
-
-        private void MiniTCPanel1_Delete_Directory(MiniTCPanel obj)
+       /* private void MiniTCPanel1_Delete_Directory(MiniTCPanel obj)
         {
             Directory.Delete(obj.currentSelectedDirectory(), true);
         }
+        */
+
+        private void MiniTCPanel_Delete_Directory(MiniTCPanel obj)
+        {
+            FileAttributes attr = File.GetAttributes(obj.currentSelectedDirectory());
+            if (attr.HasFlag(FileAttributes.Directory))
+                Directory.Delete(obj.currentSelectedDirectory(), true);
+            else
+                File.Delete(obj.currentSelectedDirectory());
+        }
+
 
 
 
@@ -174,12 +182,12 @@ namespace MiniTotalCommander
             {
                 if (currentFocus == 1)
                 {
-                    MiniTCPanel1_Delete_Directory(miniTCPanel1);
+                    MiniTCPanel_Delete_Directory(miniTCPanel1);
                     MessageBox.Show("Deleting " + miniTCPanel1.currentSelectedDirectory() + " with content was successful.");
                 }
                 else if (currentFocus == 2)
                 {
-                    MiniTCPanel2_Delete_Directory(miniTCPanel2);
+                    MiniTCPanel_Delete_Directory(miniTCPanel2);
                     MessageBox.Show("Deleting " + miniTCPanel2.currentSelectedDirectory() + " with content was successful.");
                 }
 
