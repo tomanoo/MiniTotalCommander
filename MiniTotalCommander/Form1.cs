@@ -29,6 +29,8 @@ namespace MiniTotalCommander
             //miniTCPanel1.CurrentPath = @"c:\";
             miniTCPanel1.LoadDrivers += MiniTCPanel1_LoadDrivers;
             miniTCPanel2.LoadDrivers += MiniTCPanel2_LoadDrivers;
+            miniTCPanel1.LoadDirectories += MiniTCPanel1_LoadDirectories;
+            miniTCPanel2.LoadDirectories += MiniTCPanel2_LoadDirectories;
             /*miniTCPanel1.Delete_Directory += MiniTCPanel1_Delete_Directory;
             miniTCPanel2.Delete_Directory += MiniTCPanel2_Delete_Directory;
             miniTCPanel1.Copy_Directory += MiniTCPanel1_Copy_Directory;
@@ -41,7 +43,7 @@ namespace MiniTotalCommander
 
             DriveInfo[] allDrives = DriveInfo.GetDrives();
             Console.WriteLine(allDrives);
-            
+
             //Path
             // Path.
             //Directory
@@ -50,6 +52,41 @@ namespace MiniTotalCommander
             //string[] directories = Directory.GetDirectories();
             //File
         }
+
+        private string[] MiniTCPanel_LoadDirectories(MiniTCPanel obj)
+        {
+            try
+            {
+                string[] directories = Directory.GetDirectories(obj.CurrentPath);
+                string[] files = Directory.GetFiles(obj.CurrentPath);
+                string[] tmp = new string[directories.Length + files.Length];
+                for (int i = 0; i < directories.Length - 1; i++)
+                {
+                    tmp[i] = directories[i];
+                }
+                for (int i = 0; i < files.Length - 1; i++)
+                {
+                    tmp[i + directories.Length] = files[i];
+                    Console.WriteLine(files[i]);
+                }
+                return tmp;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            return null;
+        }
+        private string[] MiniTCPanel1_LoadDirectories(MiniTCPanel obj)
+        {
+            return MiniTCPanel_LoadDirectories(obj);
+        }
+
+        private string[] MiniTCPanel2_LoadDirectories(MiniTCPanel obj)
+        {
+            return MiniTCPanel_LoadDirectories(obj);
+        }
+
 
         /*
          * 

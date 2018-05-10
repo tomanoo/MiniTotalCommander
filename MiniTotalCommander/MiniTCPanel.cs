@@ -19,6 +19,7 @@ namespace MiniTotalCommander
         private string currentDirectory;
         private string selectedDirectory;
         public event Action<MiniTCPanel> LoadDrivers;
+        public event Func<MiniTCPanel, string[]> LoadDirectories;
         /*public event Action<MiniTCPanel> Delete_Directory;
         public event Action<MiniTCPanel> Copy_Directory;
         public event Action<MiniTCPanel> Move_Directory;*/
@@ -35,6 +36,8 @@ namespace MiniTotalCommander
         public string CurrentPath
         {
             get { return currentPathBox.Text;  }
+            set { if(value != null)
+                    currentPathBox.Text = value; }
         }
 
         public string currentDir()
@@ -72,25 +75,35 @@ namespace MiniTotalCommander
 
         private void drivesList_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-            currentPathBox.Text = drivesList.SelectedItem.ToString();
-            try
+            if (LoadDirectories != null)
             {
-                string[] directories = Directory.GetDirectories(drivesList.SelectedItem.ToString());
-                string[] files = Directory.GetFiles(currentPathBox.Text);
                 containerBox.Items.Clear();
-                foreach (string d in directories)
+                currentPathBox.Text = drivesList.SelectedItem.ToString();
+                //containerBox.Items.AddRange(LoadDirectories(this));
+                string[] tmp = LoadDirectories(this);
+                foreach(string d in tmp)
                 {
-                    containerBox.Items.Add(d);//.Substring(d.LastIndexOf('\\') + 1));
+                    Console.WriteLine(d);
+                    containerBox.Items.Add(d);
                 }
-                foreach (string f in files)
-                {
-                    containerBox.Items.Add(f);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
+                //powinno zostać tylko to
+                //try
+                //{
+                //    string[] directories = Directory.GetDirectories(drivesList.SelectedItem.ToString());
+                //    string[] files = Directory.GetFiles(currentPathBox.Text);
+                //    foreach (string d in directories)
+                //    {
+                //        containerBox.Items.Add(d);//.Substring(d.LastIndexOf('\\') + 1));
+                //    }
+                //    foreach (string f in files)
+                //    {
+                //        containerBox.Items.Add(f);
+                //    }
+                //}
+                //catch (Exception ex)
+                //{
+                //    MessageBox.Show(ex.Message);
+                //}
             }
         }
 
