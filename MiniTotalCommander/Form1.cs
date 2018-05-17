@@ -29,8 +29,10 @@ namespace MiniTotalCommander
             //miniTCPanel1.CurrentPath = @"c:\";
             miniTCPanel1.LoadDrivers += MiniTCPanel1_LoadDrivers;
             miniTCPanel2.LoadDrivers += MiniTCPanel2_LoadDrivers;
-            miniTCPanel1.LoadDirectories += MiniTCPanel1_LoadDirectories;
-            miniTCPanel2.LoadDirectories += MiniTCPanel2_LoadDirectories;
+            //  miniTCPanel1.LoadDirectories += MiniTCPanel1_LoadDirectories;
+            //  miniTCPanel2.LoadDirectories += MiniTCPanel2_LoadDirectories;
+            miniTCPanel1.LoadDirectories += MiniTCPanel1_LoadDirectories1;
+            miniTCPanel2.LoadDirectories += MiniTCPanel2_LoadDirectories1;
             /*miniTCPanel1.Delete_Directory += MiniTCPanel1_Delete_Directory;
             miniTCPanel2.Delete_Directory += MiniTCPanel2_Delete_Directory;
             miniTCPanel1.Copy_Directory += MiniTCPanel1_Copy_Directory;
@@ -53,12 +55,14 @@ namespace MiniTotalCommander
             //File
         }
 
-        private string[] MiniTCPanel_LoadDirectories(MiniTCPanel obj)
+        
+
+        private string[] MiniTCPanel_LoadDirectories(MiniTCPanel obj, string d, string f)
         {
             try
             {
-                string[] directories = Directory.GetDirectories(obj.CurrentPath);
-                string[] files = Directory.GetFiles(obj.CurrentPath);
+                string[] directories = Directory.GetDirectories(d);
+                string[] files = Directory.GetFiles(f);
                 string[] tmp = new string[directories.Length + files.Length];
                 for (int i = 0; i < directories.Length - 1; i++)
                 {
@@ -77,44 +81,63 @@ namespace MiniTotalCommander
             }
             return null;
         }
-        private string[] MiniTCPanel1_LoadDirectories(MiniTCPanel obj)
+        private string[] MiniTCPanel2_LoadDirectories1(MiniTCPanel obj, string d, string f)
         {
-            return MiniTCPanel_LoadDirectories(obj);
+            return MiniTCPanel_LoadDirectories(obj, d, f);
         }
 
-        private string[] MiniTCPanel2_LoadDirectories(MiniTCPanel obj)
+        private string[] MiniTCPanel1_LoadDirectories1(MiniTCPanel obj, string d, string f)
         {
-            return MiniTCPanel_LoadDirectories(obj);
+            return MiniTCPanel_LoadDirectories(obj, d, f);
         }
+        /*   private string[] MiniTCPanel1_LoadDirectories(MiniTCPanel obj, string d, string f)
+           {
+               return MiniTCPanel_LoadDirectories(obj, d, f);
+           }
+
+           private string[] MiniTCPanel2_LoadDirectories(MiniTCPanel obj, string d, string f)
+           {
+               return MiniTCPanel_LoadDirectories(obj, d, f);
+           }*/
 
 
         /*
          * 
          * 
-         * Wchodzimy do folderu, który chcemy przenieść,
+         * Klikamy na folder, który chcemy przenieść,
          * natomiast w drugiej kontrolce (panelu, widoku)
-         * zaznaczamy (nie wchodzimy) folder docelowy.
+         * wchodzimy do folder docelowy.
          * 
          * 
          */
 
         private void MiniTCPanel1_Move_Directory(MiniTCPanel obj)
         {
-            string sourceDir = obj.currentSelectedDirectory();
-            string destDir = miniTCPanel2.currentDir() + '\\' +
-                obj.currentSelectedDirectory().Substring(obj.currentSelectedDirectory().LastIndexOf('\\') + 1);
+            // string sourceDir = obj.currentSelectedDirectory();
+            // string destDir = miniTCPanel2.currentDir() + '\\' + 
+            //      sourceDir.Substring(sourceDir.LastIndexOf('\\') + 1);
+            string sourceDir = obj.returnSelectedItem();
+            string destDir = miniTCPanel2.currentDir() + '\\' + sourceDir.Substring(sourceDir.LastIndexOf('\\') + 1);
             MessageBox.Show("Tu 1");
             MessageBox.Show(sourceDir + " to " + destDir);
             Directory.Move(sourceDir, destDir);
+            obj.loadContent(miniTCPanel1, obj.CurrentPath, obj.CurrentPath);
+            miniTCPanel2.loadContent(miniTCPanel2, miniTCPanel2.CurrentPath, miniTCPanel2.CurrentPath);
+          //  obj.loadContent(obj, destDir, destDir);
         }
         private void MiniTCPanel2_Move_Directory(MiniTCPanel obj)
         {
-            string sourceDir = obj.currentSelectedDirectory();
-            string destDir = miniTCPanel1.currentDir() + '\\' +
-                obj.currentSelectedDirectory().Substring(obj.currentSelectedDirectory().LastIndexOf('\\') + 1);
+            //string sourceDir = obj.currentSelectedDirectory();
+            //string destDir = miniTCPanel1.currentDir() + '\\' +
+            //      sourceDir.Substring(sourceDir.LastIndexOf('\\') + 1);
+            string sourceDir = obj.returnSelectedItem();
+            string destDir = miniTCPanel1.currentDir() + '\\' + sourceDir.Substring(sourceDir.LastIndexOf('\\') + 1);
             MessageBox.Show("Tu 2");
             MessageBox.Show(sourceDir + " to " + destDir);
             Directory.Move(sourceDir, destDir);
+            // obj.loadContent(obj, destDir, destDir);
+            obj.loadContent(miniTCPanel1, obj.CurrentPath, obj.CurrentPath);
+            miniTCPanel1.loadContent(miniTCPanel1, miniTCPanel1.CurrentPath, miniTCPanel1.CurrentPath);
         }
 
         private void MiniTCPanel_Copy_Directory(/*MiniTCPanel obj, */string sourceDir, string destDir)
@@ -192,6 +215,16 @@ namespace MiniTotalCommander
                 Directory.Delete(obj.currentSelectedDirectory(), true);
             else
                 File.Delete(obj.currentSelectedDirectory());
+
+            if (miniTCPanel1.CurrentPath == miniTCPanel2.CurrentPath)
+            {
+                miniTCPanel1.loadContent(miniTCPanel1, miniTCPanel1.CurrentPath, miniTCPanel1.CurrentPath);
+                miniTCPanel2.loadContent(miniTCPanel2, miniTCPanel2.CurrentPath, miniTCPanel2.CurrentPath);
+            }
+            else
+            {
+                obj.loadContent(obj, obj.CurrentPath, obj.CurrentPath);
+            }
         }
 
 
@@ -242,26 +275,53 @@ namespace MiniTotalCommander
             {
                 if (currentFocus == 2)
                 {
-                    string sourceDir = miniTCPanel1.currentSelectedDirectory();
+                    //  string sourceDir = miniTCPanel1.currentSelectedDirectory();
+                    //string destDir = miniTCPanel2.currentDir() + '\\' +
+                    //  sourceDir.Substring(sourceDir.LastIndexOf('\\') + 1);
+                    string sourceDir = miniTCPanel1.returnSelectedItem();
                     string destDir = miniTCPanel2.currentDir() + '\\' +
-                miniTCPanel1.currentSelectedDirectory().Substring(miniTCPanel1.currentSelectedDirectory().LastIndexOf('\\') + 1);
+                        sourceDir.Substring(sourceDir.LastIndexOf('\\') + 1);
 
                     MiniTCPanel_Copy_Directory(sourceDir, destDir);
                     MessageBox.Show("Copied " + sourceDir + " to " + destDir);
+                    miniTCPanel2.loadContent(miniTCPanel2, miniTCPanel2.currentDir(), miniTCPanel2.currentDir());
                 }
                 else if (currentFocus == 1)
                 {
-                    string sourceDir = miniTCPanel2.currentSelectedDirectory();
+                    //   string sourceDir = miniTCPanel2.currentSelectedDirectory();
+                    // string destDir = miniTCPanel1.currentDir() + '\\' +
+                    //   sourceDir.Substring(sourceDir.LastIndexOf('\\') + 1);
+                    string sourceDir = miniTCPanel2.returnSelectedItem();
                     string destDir = miniTCPanel1.currentDir() + '\\' +
-                miniTCPanel2.currentSelectedDirectory().Substring(miniTCPanel2.currentSelectedDirectory().LastIndexOf('\\') + 1);
+                        sourceDir.Substring(sourceDir.LastIndexOf('\\') + 1);
+
 
                     MiniTCPanel_Copy_Directory(sourceDir, destDir);
                     MessageBox.Show("Copied " + sourceDir + " to " + destDir);
+                    miniTCPanel1.loadContent(miniTCPanel1, miniTCPanel1.currentDir(), miniTCPanel1.currentDir());
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+        private void moveButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (currentFocus == 2)
+                {
+                    MiniTCPanel1_Move_Directory(miniTCPanel1);
+                }
+                else if (currentFocus == 1)
+                {
+                    MiniTCPanel2_Move_Directory(miniTCPanel2);
+                }
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
             }
         }
 
@@ -277,25 +337,5 @@ namespace MiniTotalCommander
             currentFocus = 2;
         }
 
-        private void moveButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (currentFocus == 2)
-                {
-                    MiniTCPanel1_Move_Directory(miniTCPanel1);
-                    MessageBox.Show("Moved " + miniTCPanel1.CurrentPath + " to " + miniTCPanel2.CurrentPath);
-                }
-                else if (currentFocus == 1)
-                {
-                    MiniTCPanel2_Move_Directory(miniTCPanel2);
-                    MessageBox.Show("Moved " + miniTCPanel2.CurrentPath + " to " + miniTCPanel1.CurrentPath);
-                }
-            }
-            catch (Exception exc)
-            {
-                MessageBox.Show(exc.Message);
-            }
-        }
     }
 }
